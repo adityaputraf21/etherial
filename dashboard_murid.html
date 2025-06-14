@@ -17,40 +17,59 @@
 
         /* Kelas untuk animasi sidebar */
         .sidebar-transition {
-            transition: transform 0.3s ease-out, width 0.3s ease-out; /* Tambah transisi width */
+            transition: transform 0.3s ease-out; /* Lebar tetap, hanya geser */
         }
         .sidebar-open {
             transform: translateX(0%);
-            width: 16rem; /* Lebar default untuk sidebar terbuka */
         }
         .sidebar-closed {
             transform: translateX(-100%);
-            width: 0; /* Lebar 0 saat tertutup di mobile */
-            overflow: hidden; /* Sembunyikan konten saat tertutup */
         }
 
-        /* Untuk desktop, sidebar akan selalu terbuka */
+        /* Untuk desktop, sidebar akan selalu terbuka dan main content menyesuaikan */
         @media (min-width: 1024px) { /* breakpoint 'lg' */
-            .lg\:sidebar-open-desktop {
-                transform: translateX(0%) !important;
-                width: 16rem !important; /* Pastikan tetap 16rem di desktop */
+            body {
+                display: flex; /* Menggunakan flexbox untuk layout utama di desktop */
+                height: 100vh; /* Pastikan body mengambil tinggi penuh viewport */
+                overflow: hidden; /* Mencegah scrollbar pada body, scrollbar di main content */
             }
-            .lg\:sidebar-relative {
-                position: relative !important;
-                left: auto !important;
+
+            #sidebar {
+                position: relative; /* Sidebar menjadi bagian dari flow dokumen */
+                transform: translateX(0%) !important; /* Pastikan selalu terbuka */
+                width: 16rem; /* Lebar sidebar */
+                flex-shrink: 0; /* Mencegah sidebar mengecil */
             }
-            .lg\:main-content-padding {
-                padding-left: 16rem; /* Tambahkan padding ke main content sesuai lebar sidebar */
+
+            #main-wrapper { /* Wrapper baru untuk header dan main content */
+                flex-grow: 1; /* Main wrapper mengambil sisa ruang */
+                display: flex;
+                flex-direction: column; /* Konten di dalamnya tersusun vertikal */
+                overflow: hidden; /* Sembunyikan overflow di wrapper ini, scrollable di main */
+            }
+
+            #main-header { /* Header di desktop */
+                position: sticky; /* Sticky agar tetap di atas saat scroll main content */
+                top: 0;
+                z-index: 20; /* Pastikan header di atas konten */
+                width: 100%; /* Ambil lebar penuh main-wrapper */
+            }
+
+            #main-content { /* Main content di desktop */
+                flex-grow: 1; /* Main content mengambil sisa ruang setelah header */
+                overflow-y: auto; /* Scrollbar hanya pada main content */
+                padding-top: 2rem; /* Padding atas untuk konten agar tidak terlalu mepet header */
+                padding-bottom: 2rem; /* Padding bawah untuk konten */
             }
         }
     </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
-    <div class="flex h-screen overflow-hidden">
+    <div class="flex h-screen">
         <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
-        <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-indigo-700 text-white flex-col p-4 shadow-lg z-40 sidebar-transition sidebar-closed lg:relative lg:flex lg:shadow-none lg:sidebar-open-desktop lg:sidebar-relative">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-indigo-700 text-white flex-col p-4 shadow-lg z-40 sidebar-transition sidebar-closed lg:flex">
             <div class="flex items-center mb-8">
                 <img src="https://via.placeholder.com/40" alt="Logo Sekolah" class="rounded-full mr-3">
                 <h1 class="text-2xl font-bold">Sekolahku</h1>
@@ -112,8 +131,8 @@
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-auto no-scrollbar pt-20 px-4 md:px-8 lg:pt-4 lg:ml-64 lg:px-8">
-            <header class="fixed top-0 left-0 right-0 z-20 bg-gray-100 flex items-center justify-between px-4 md:px-8 py-4 border-b border-gray-300 lg:left-64 lg:px-8">
+        <div id="main-wrapper" class="flex-1 flex flex-col overflow-hidden">
+            <header id="main-header" class="bg-gray-100 flex items-center justify-between px-4 md:px-8 py-4 border-b border-gray-300">
                 <div class="flex items-center">
                     <button id="hamburgerBtn" class="p-2 mr-4 text-gray-600 hover:text-gray-900 lg:hidden">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -169,130 +188,132 @@
                 </div>
             </header>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Nilai Rata-rata</h3>
-                    <p class="text-5xl font-bold text-indigo-600 mb-2">87.5</p>
-                    <p class="text-gray-500">Semester ini</p>
-                </div>
+            <main id="main-content" class="flex-1 overflow-auto no-scrollbar p-4 md:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Nilai Rata-rata</h3>
+                        <p class="text-5xl font-bold text-indigo-600 mb-2">87.5</p>
+                        <p class="text-gray-500">Semester ini</p>
+                    </div>
 
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Tugas Mendatang</h3>
-                    <ul class="space-y-3">
-                        <li class="flex items-center justify-between text-gray-600 text-sm">
-                            <span>Matematika: Tugas Aljabar</span>
-                            <span class="font-medium text-red-500">Besok</span>
-                        </li>
-                        <li class="flex items-center justify-between text-gray-600 text-sm">
-                            <span>Bahasa Inggris: Essay</span>
-                            <span class="font-medium text-yellow-500">2 hari lagi</span>
-                        </li>
-                        <li class="flex items-center justify-between text-gray-600 text-sm">
-                            <span>Fisika: Proyek</span>
-                            <span class="font-medium text-green-500">Minggu Depan</span>
-                        </li>
-                    </ul>
-                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline text-sm">Lihat Semua Tugas &rarr;</a>
-                </div>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Tugas Mendatang</h3>
+                        <ul class="space-y-3">
+                            <li class="flex items-center justify-between text-gray-600 text-sm">
+                                <span>Matematika: Tugas Aljabar</span>
+                                <span class="font-medium text-red-500">Besok</span>
+                            </li>
+                            <li class="flex items-center justify-between text-gray-600 text-sm">
+                                <span>Bahasa Inggris: Essay</span>
+                                <span class="font-medium text-yellow-500">2 hari lagi</span>
+                            </li>
+                            <li class="flex items-center justify-between text-gray-600 text-sm">
+                                <span>Fisika: Proyek</span>
+                                <span class="font-medium text-green-500">Minggu Depan</span>
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline text-sm">Lihat Semua Tugas &rarr;</a>
+                    </div>
 
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Pengumuman Terbaru</h3>
-                    <ul class="space-y-3 text-sm">
-                        <li class="text-gray-600">
-                            <span class="font-semibold">Libur Nasional:</span> Peringatan Hari Kemerdekaan pada 17 Agustus.
-                        </li>
-                        <li class="text-gray-600">
-                            <span class="font-semibold">Perubahan Jadwal:</span> Mapel Sejarah hari Kamis dipindah.
-                        </li>
-                    </ul>
-                    <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline text-sm">Lihat Semua Pengumuman &rarr;</a>
-                </div>
-            </div>
-
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div class="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Daftar Tugas Mendatang</h3>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tugas
-                                    </th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Mapel
-                                    </th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Tenggat
-                                    </th>
-                                    <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                <tr>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        Ringkasan Bab 3
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        B. Indo
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        20 Jun
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Belum Selesai
-                                        </span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        Latihan Soal Kalkulus
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        Matematika
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        22 Jun
-                                    </td>
-                                    <td class="px-3 py-4 whitespace-nowrap text-sm">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                            Belum Selesai
-                                        </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Pengumuman Terbaru</h3>
+                        <ul class="space-y-3 text-sm">
+                            <li class="text-gray-600">
+                                <span class="font-semibold">Libur Nasional:</span> Peringatan Hari Kemerdekaan pada 17 Agustus.
+                            </li>
+                            <li class="text-gray-600">
+                                <span class="font-semibold">Perubahan Jadwal:</span> Mapel Sejarah hari Kamis dipindah.
+                            </li>
+                        </ul>
+                        <a href="#" class="mt-4 inline-block text-indigo-600 hover:underline text-sm">Lihat Semua Pengumuman &rarr;</a>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-lg shadow-md p-6">
-                    <h3 class="text-xl font-semibold text-gray-700 mb-4">Jadwal Hari Ini</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center p-3 bg-gray-50 rounded-lg">
-                            <div class="mr-4 text-indigo-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 text-sm">08:00 - 09:30</p>
-                                <p class="text-gray-600 text-sm">Matematika - Ruang B3</p>
-                            </div>
-                        </li>
-                        <li class="flex items-center p-3 bg-gray-50 rounded-lg">
-                            <div class="mr-4 text-indigo-600">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <div>
-                                <p class="font-semibold text-gray-800 text-sm">09:45 - 11:15</p>
-                                <p class="text-gray-600 text-sm">Bahasa Inggris - Ruang B4</p>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white rounded-lg shadow-md p-6 overflow-x-auto">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Daftar Tugas Mendatang</h3>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tugas
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Mapel
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Tenggat
+                                        </th>
+                                        <th scope="col" class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                            Status
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            Ringkasan Bab 3
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            B. Indo
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            20 Jun
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                Belum Selesai
+                                            </span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                            Latihan Soal Kalkulus
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Matematika
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            22 Jun
+                                        </td>
+                                        <td class="px-3 py-4 whitespace-nowrap text-sm">
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                Belum Selesai
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-xl font-semibold text-gray-700 mb-4">Jadwal Hari Ini</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <div class="mr-4 text-indigo-600">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">08:00 - 09:30</p>
+                                    <p class="text-gray-600 text-sm">Matematika - Ruang B3</p>
+                                </div>
+                            </li>
+                            <li class="flex items-center p-3 bg-gray-50 rounded-lg">
+                                <div class="mr-4 text-indigo-600">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-800 text-sm">09:45 - 11:15</p>
+                                    <p class="text-gray-600 text-sm">Bahasa Inggris - Ruang B4</p>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </main>
+            </main>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -315,21 +336,21 @@
         const sidebar = document.getElementById('sidebar');
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
-        const mainContent = document.querySelector('main'); // Dapatkan elemen main content
+        const mainHeader = document.getElementById('main-header'); // Dapatkan elemen header
+        const mainContent = document.getElementById('main-content'); // Dapatkan elemen main content
 
         function openSidebar() {
             sidebar.classList.remove('sidebar-closed');
             sidebar.classList.add('sidebar-open');
             sidebarOverlay.classList.remove('hidden');
-            // Untuk memastikan main content tidak bergeser di mobile saat sidebar terbuka
-            document.body.style.overflow = 'hidden'; 
+            document.body.style.overflow = 'hidden'; // Mencegah scroll body di mobile
         }
 
         function closeSidebar() {
             sidebar.classList.remove('sidebar-open');
             sidebar.classList.add('sidebar-closed');
             sidebarOverlay.classList.add('hidden');
-            document.body.style.overflow = ''; // Kembalikan overflow body
+            document.body.style.overflow = ''; // Mengembalikan scroll body
         }
 
         // Toggle sidebar saat tombol hamburger diklik
@@ -346,21 +367,26 @@
             closeSidebar();
         });
 
+        // Sesuaikan padding main content saat ukuran layar berubah
+        function adjustMainContentPadding() {
+            if (window.innerWidth < 1024) { // Mobile/Tablet
+                // Atur padding untuk mobile/tablet agar tidak tertutup header fixed
+                mainContent.style.paddingTop = mainHeader.offsetHeight + 'px';
+            } else { // Desktop
+                mainContent.style.paddingTop = '2rem'; // Padding top konsisten di desktop
+            }
+        }
+
         // Tutup sidebar saat ukuran layar berubah (misal dari mobile ke desktop)
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 1024) { // Jika lebar layar lebih besar dari breakpoint 'lg'
+                // Di desktop, pastikan sidebar selalu terbuka secara default
                 sidebar.classList.remove('sidebar-closed');
-                sidebar.classList.add('lg:sidebar-open-desktop'); // Gunakan class spesifik desktop
-                sidebar.classList.add('lg:sidebar-relative'); // Pastikan posisi relatif di desktop
-                sidebarOverlay.classList.add('hidden');
-                document.body.style.overflow = ''; // Pastikan overflow kembali normal di desktop
-                mainContent.classList.add('lg:main-content-padding'); // Tambahkan padding ke main content
+                sidebar.classList.add('sidebar-open'); // Pastikan transform: translateX(0)
+                sidebarOverlay.classList.add('hidden'); // Sembunyikan overlay
+                document.body.style.overflow = 'hidden'; // body tidak boleh scroll di desktop, main content yang scroll
             } else {
                 // Di mobile, jika sidebar terbuka, biarkan terbuka. Jika tertutup, biarkan tertutup.
-                // Ini mencegah sidebar muncul secara otomatis saat orientasi mobile berubah.
-                sidebar.classList.remove('lg:sidebar-open-desktop');
-                sidebar.classList.remove('lg:sidebar-relative');
-                mainContent.classList.remove('lg:main-content-padding'); // Hapus padding di mobile
                 if (sidebar.classList.contains('sidebar-open')) {
                     sidebarOverlay.classList.remove('hidden');
                     document.body.style.overflow = 'hidden'; 
@@ -369,6 +395,7 @@
                     document.body.style.overflow = ''; 
                 }
             }
+            adjustMainContentPadding(); // Sesuaikan padding setiap kali resize
         });
 
         // Optional: Tutup sidebar jika salah satu link navigasi di klik (di mobile)
@@ -381,18 +408,18 @@
             });
         });
 
-        // Inisialisasi awal untuk memastikan sidebar terbuka di desktop saat halaman dimuat
+        // Inisialisasi awal untuk memastikan sidebar terbuka di desktop dan padding main content yang benar saat halaman dimuat
         document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth >= 1024) {
                 sidebar.classList.remove('sidebar-closed');
-                sidebar.classList.add('lg:sidebar-open-desktop');
-                sidebar.classList.add('lg:sidebar-relative');
-                mainContent.classList.add('lg:main-content-padding'); // Tambahkan padding di awal
+                sidebar.classList.add('sidebar-open');
+                document.body.style.overflow = 'hidden';
             } else {
                 sidebar.classList.add('sidebar-closed');
                 sidebarOverlay.classList.add('hidden');
-                mainContent.classList.remove('lg:main-content-padding'); // Pastikan tidak ada padding di mobile
+                document.body.style.overflow = '';
             }
+            adjustMainContentPadding(); // Panggil saat DOM dimuat
         });
     </script>
 </body>
