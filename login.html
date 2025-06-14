@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - BimbelPro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="font-poppins antialiased text-gray-800">
+
+    <header class="bg-white shadow-md py-4 sticky top-0 z-50">
+        <nav class="container mx-auto px-6 flex items-center justify-between">
+            <a href="index.html" class="text-3xl font-bold text-indigo-700 font-montserrat">BimbelPro</a>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a href="index.html#fitur" class="text-gray-700 hover:text-indigo-700 transition duration-300 font-semibold">Fitur</a>
+                <a href="index.html#testimoni" class="text-gray-700 hover:text-indigo-700 transition duration-300 font-semibold">Testimoni</a>
+                <a href="index.html#paket" class="text-gray-700 hover:text-indigo-700 transition duration-300 font-semibold">Paket</a>
+                <a href="index.html#kontak" class="text-gray-700 hover:text-indigo-700 transition duration-300 font-semibold">Kontak</a>
+                <a href="login.html" class="text-gray-700 hover:text-indigo-700 transition duration-300 font-semibold">Login</a>
+                <a href="daftar.html" class="bg-indigo-600 text-white px-6 py-2 rounded-full hover:bg-indigo-700 transition duration-300 transform hover:scale-105 shadow-lg font-semibold">Daftar Sekarang</a>
+            </div>
+            <button id="mobile-menu-button" class="md:hidden focus:outline-none text-gray-800">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </nav>
+        <div id="mobile-menu" class="hidden md:hidden bg-white mt-2 py-3 shadow-lg rounded-lg mx-4 text-center">
+            <a href="index.html#fitur" class="block px-4 py-3 text-gray-800 hover:bg-indigo-50 hover:text-indigo-700 transition duration-300 font-semibold">Fitur</a>
+            <a href="index.html#testimoni" class="block px-4 py-3 text-gray-800 hover:bg-indigo-50 hover:text-indigo-700 transition duration-300 font-semibold">Testimoni</a>
+            <a href="index.html#paket" class="block px-4 py-3 text-gray-800 hover:bg-indigo-50 hover:text-indigo-700 transition duration-300 font-semibold">Paket</a>
+            <a href="index.html#kontak" class="block px-4 py-3 text-gray-800 hover:bg-indigo-50 hover:text-indigo-700 transition duration-300 font-semibold">Kontak</a>
+            <a href="login.html" class="block px-4 py-3 text-gray-800 hover:bg-indigo-50 hover:text-indigo-700 transition duration-300 font-semibold">Login</a>
+            <a href="daftar.html" class="block bg-indigo-600 text-white px-4 py-3 mx-4 mt-2 rounded-full hover:bg-indigo-700 transition duration-300 font-semibold">Daftar Sekarang</a>
+        </div>
+    </header>
+
+
+    <section class="py-16 md:py-24 bg-gradient-to-br from-indigo-50 to-white min-h-[calc(100vh-200px)] flex items-center justify-center">
+        <div class="container mx-auto px-6">
+            <div class="max-w-md mx-auto bg-white p-8 md:p-10 rounded-xl shadow-2xl border border-indigo-100">
+                <h2 class="text-4xl font-bold text-gray-900 mb-8 text-center font-montserrat">Selamat Datang Kembali!</h2>
+                <p class="text-gray-600 text-lg text-center mb-10">Silakan masuk ke akun BimbelPro Anda.</p>
+
+                <form action="#" method="POST" class="space-y-6">
+                    <div>
+                        <label for="email_username" class="block text-gray-700 text-sm font-semibold mb-2">Email atau Username</label>
+                        <input type="text" id="email_username" name="email_username" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200" placeholder="Masukkan email atau username Anda">
+                    </div>
+
+                    <div>
+                        <label for="password" class="block text-gray-700 text-sm font-semibold mb-2">Kata Sandi</label>
+                        <input type="password" id="password" name="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200" placeholder="Masukkan kata sandi Anda" >
+                    </div>
+
+                    <div class="flex items-center justify-between text-sm">
+                        <div class="flex items-center">
+                            <input type="checkbox" id="remember_me" name="remember_me" class="h-4 w-4 text-indigo-600 rounded border-gray-300 focus:ring-indigo-500">
+                            <label for="remember_me" class="ml-2 block text-gray-700">Ingat Saya</label>
+                        </div>
+                        <a href="#" class="font-semibold text-indigo-600 hover:text-indigo-800 transition duration-200">Lupa Kata Sandi?</a>
+                    </div>
+
+                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3.5 px-8 rounded-full text-lg hover:bg-indigo-700 transition duration-300 transform hover:scale-105 shadow-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                      <a href="dashboard_murid.html">  Login </a>
+                    </button>
+                </form>
+
+                <p class="text-center text-gray-600 text-sm mt-8">
+                    Belum punya akun? <a href="daftar.html" class="font-semibold text-indigo-600 hover:text-indigo-800 transition duration-200">Daftar Sekarang</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
+            <div>
+                <a href="index.html" class="text-3xl font-bold text-indigo-400 font-montserrat mb-4 block">BimbelPro</a>
+                <p class="text-gray-400 text-sm leading-relaxed">Solusi bimbingan belajar terbaik untuk meraih potensi akademik penuh Anda.</p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300" aria-label="Facebook">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.79c0-2.508 1.493-3.89 3.776-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33V22H12c5.523 0 10-4.477 10-10z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300" aria-label="Instagram">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12.315 2.44v2.05h.001c1.455-.008 2.684.053 3.518.297.809.237 1.455.602 2.006 1.15.55.549.914 1.196 1.15 2.006.244.834.305 2.063.297 3.518v.001c.008 1.455-.053 2.684-.297 3.518-.237.809-.602 1.455-1.15 2.006-.549.55-.914.914-2.006 1.15-.834.244-2.063.305-3.518.297h-.001c-1.455.008-2.684-.053-3.518-.297-.809-.237-1.455-.602-2.006-1.15-.55-.549-.914-.914-1.15-2.006-.244-.834-.305-2.063-.297-3.518v-.001c-.008-1.455.053-2.684.297-3.518.237-.809.602-1.455 1.15-2.006.549-.55.914-.914 2.006-1.15.834-.244 2.063-.305 3.518-.297h.001zm-1.654 3.606c-1.077-.006-2.148.031-2.923.218-.62.15-1.066.393-1.444.77-.376.377-.62.822-.77 1.443-.186.775-.224 1.846-.218 2.923v.001c-.006 1.077.031 2.148.218 2.923.15.62.393 1.066.77 1.444.377.376.822.62 1.443.77.775.186 1.846.224 2.923.218h.001c1.077.006 2.148-.031 2.923-.218.62-.15 1.066-.393 1.444-.77.376-.377.62-.822.77-1.443.186-.775.224-1.846.218-2.923v-.001c.006-1.077-.031-2.148-.218-2.923-.15-.62-.393-1.066-.77-1.444-.377-.376-.822-.62-1.443-.77-.775-.186-1.846-.224-2.923-.218h-.001zm-3.042 5.093c.004-1.642 1.332-2.97 2.975-2.975 1.642.004 2.97 1.332 2.975 2.975-.004 1.642-1.332 2.97-2.975 2.975-1.642-.004-2.97-1.332-2.975-2.975zm2.975-4.498c-2.483.006-4.489 2.012-4.498 4.495-.006 2.483 2.012 4.489 4.495 4.498 2.483-.006 4.489-2.012 4.498-4.495.006-2.483-2.012-4.489-4.495-4.498z" clip-rule="evenodd" /></svg>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition duration-300" aria-label="WhatsApp">
+                        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.71a10 10 0 01-1.37-.15L3 21l1.37-3.71a10 10 0 01-.15-1.37c-1.36-3.8-1.36-8.2 0-12s3.8-1.36 8.2 0 1.36 3.8 0 8.2-3.8 1.36-8.2 0zM12 2C6.48 2 2 6.48 2 12c0 2.25.75 4.3 2 5.95L2 22l4.05-2c1.65 1.25 3.7 2 5.95 2 5.52 0 10-4.48 10-10S17.52 2 12 2zm4 11h-3v3H9v-3H6v-2h3V8h2v3h3v2z" /></svg>
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6 text-white font-montserrat">Layanan Kami</h3>
+                <ul>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Bimbingan Akademik</a></li>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Persiapan Ujian Nasional</a></li>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Persiapan UTBK/SNBT</a></li>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Bimbingan SBMPTN</a></li>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Kelas Privat</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6 text-white font-montserrat">Tautan Cepat</h3>
+                <ul>
+                    <li class="mb-3"><a href="index.html#fitur" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Tentang Kami</a></li>
+                    <li class="mb-3"><a href="index.html#testimoni" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Testimoni Siswa</a></li>
+                    <li class="mb-3"><a href="index.html#paket" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Pilihan Paket</a></li>
+                    <li class="mb-3"><a href="#" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">FAQ</a></li>
+                    <li class="mb-3"><a href="#" class="text-gray-400 hover:text-indigo-400 transition duration-300 text-base">Kebijakan Privasi</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="text-xl font-bold mb-6 text-white font-montserrat">Hubungi Kami</h3>
+                <p class="text-gray-400 mb-3 text-base flex items-start">
+                    <svg class="w-6 h-6 text-indigo-400 mr-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                    Jalan Raya Contoh No. 123, Dalung, Bali, Indonesia
+                </p>
+                <p class="text-gray-400 mb-3 text-base flex items-center">
+                    <svg class="w-6 h-6 text-indigo-400 mr-3" fill="currentColor" viewBox="0 0 20 20"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06L6.22 10.272a10 10 0 005.58 5.58l1.793-1.793a1 1 0 011.06-.54l4.435.74A1 1 0 0119 17v2a2 2 0 01-2 2H3a2 2 0 01-2-2V3z"></path></svg>
+                    (0361) 1234567
+                </p>
+                <p class="text-gray-400 mb-3 text-base flex items-center">
+                    <svg class="w-6 h-6 text-indigo-400 mr-3" fill="currentColor" viewBox="0 0 20 20"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0018 4H2a2 2 0 00-.003 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+                    info@bimbelpro.com
+                </p>
+            </div>
+        </div>
+        <div class="text-center text-gray-500 text-sm mt-10 border-t border-gray-700 pt-6">
+            &copy; 2025 BimbelPro. Hak Cipta Dilindungi Undang-Undang.
+        </div>
+    </footer>
+
+    <script src="assets/js/script.js"></script>
+
+</body>
+</html>

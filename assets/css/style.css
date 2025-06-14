@@ -1,0 +1,39 @@
+/* Import Tailwind CSS */
+/* Untuk development, Anda bisa menggunakan CDN langsung seperti ini: */
+@import url('https://cdn.tailwindcss.com');
+
+/* Untuk produksi, Anda harus menginstal Tailwind dan membuat file CSS yang di-build.
+   Contoh:
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+*/
+
+/* Custom styles untuk Carousel */
+.carousel-wrapper {
+    overflow: hidden;
+    position: relative; /* Penting untuk posisi tombol */
+}
+.slides-container {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%; /* Pastikan kontainer slide mengisi lebar */
+}
+.slide {
+    flex: 0 0 100%; /* Setiap slide mengambil lebar 100% dari container */
+    width: 100%; /* Penting untuk responsivitas */
+    height: 100%; /* Pastikan slide mengisi tinggi hero section */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    padding: 4rem 1.5rem; /* px-6 py-16 */
+}
+/* Overlay untuk carousel slide */
+.slide-overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.6); /* Overlay gelap */
+    z-index: 0;
+}
