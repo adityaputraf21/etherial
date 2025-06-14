@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Muriddddd</title>
+    <title>Dashboard Murid</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Custom CSS untuk menyembunyikan scrollbar di elemen tertentu */
@@ -17,22 +17,40 @@
 
         /* Kelas untuk animasi sidebar */
         .sidebar-transition {
-            transition: transform 0.3s ease-out;
+            transition: transform 0.3s ease-out, width 0.3s ease-out; /* Tambah transisi width */
         }
         .sidebar-open {
             transform: translateX(0%);
+            width: 16rem; /* Lebar default untuk sidebar terbuka */
         }
         .sidebar-closed {
             transform: translateX(-100%);
+            width: 0; /* Lebar 0 saat tertutup di mobile */
+            overflow: hidden; /* Sembunyikan konten saat tertutup */
+        }
+
+        /* Untuk desktop, sidebar akan selalu terbuka */
+        @media (min-width: 1024px) { /* breakpoint 'lg' */
+            .lg\:sidebar-open-desktop {
+                transform: translateX(0%) !important;
+                width: 16rem !important; /* Pastikan tetap 16rem di desktop */
+            }
+            .lg\:sidebar-relative {
+                position: relative !important;
+                left: auto !important;
+            }
+            .lg\:main-content-padding {
+                padding-left: 16rem; /* Tambahkan padding ke main content sesuai lebar sidebar */
+            }
         }
     </style>
 </head>
 <body class="bg-gray-100 font-sans antialiased">
 
-    <div class="flex h-screen">
+    <div class="flex h-screen overflow-hidden">
         <div id="sidebarOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden lg:hidden"></div>
 
-        <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-indigo-700 text-white flex-col p-4 shadow-lg z-40 sidebar-transition sidebar-closed lg:relative lg:flex lg:shadow-none lg:sidebar-open">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 w-64 bg-indigo-700 text-white flex-col p-4 shadow-lg z-40 sidebar-transition sidebar-closed lg:relative lg:flex lg:shadow-none lg:sidebar-open-desktop lg:sidebar-relative">
             <div class="flex items-center mb-8">
                 <img src="https://via.placeholder.com/40" alt="Logo Sekolah" class="rounded-full mr-3">
                 <h1 class="text-2xl font-bold">Sekolahku</h1>
@@ -94,8 +112,8 @@
             </nav>
         </aside>
 
-        <main class="flex-1 overflow-auto p-4 md:p-8 no-scrollbar lg:pt-24 md:pt-20 pt-16">
-            <header class="fixed top-0 left-0 right-0 z-20 bg-gray-100 flex items-center justify-between px-4 md:px-8 py-4 border-b border-gray-300">
+        <main class="flex-1 overflow-auto no-scrollbar pt-20 px-4 md:px-8 lg:pt-4 lg:ml-64 lg:px-8">
+            <header class="fixed top-0 left-0 right-0 z-20 bg-gray-100 flex items-center justify-between px-4 md:px-8 py-4 border-b border-gray-300 lg:left-64 lg:px-8">
                 <div class="flex items-center">
                     <button id="hamburgerBtn" class="p-2 mr-4 text-gray-600 hover:text-gray-900 lg:hidden">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -104,12 +122,12 @@
                         <img src="https://via.placeholder.com/40" alt="Logo Sekolah" class="rounded-full mr-3">
                         <h1 class="text-2xl font-bold text-gray-800">Sekolahku</h1>
                     </div>
-                    <h1 class="text-xl md:text-3xl font-bold text-gray-800 lg:flex-grow">Halo, Nama Murid!</h1>
+                    <h1 class="text-xl md:text-3xl font-bold text-gray-800">Halo, Nama Murid!</h1>
                 </div>
 
                 <div class="flex items-center space-x-2 md:space-x-4">
-                    <div class="relative hidden sm:block">
-                        <input type="text" placeholder="Cari..." class="py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                    <div class="relative hidden md:block">
+                        <input type="text" placeholder="Cari..." class="py-2 px-4 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm w-36 sm:w-auto">
                         <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                     </div>
                     <button class="relative p-2 text-gray-600 hover:text-gray-900">
@@ -152,7 +170,6 @@
             </header>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-
                 <div class="bg-white rounded-lg shadow-md p-6">
                     <h3 class="text-xl font-semibold text-gray-700 mb-4">Nilai Rata-rata</h3>
                     <p class="text-5xl font-bold text-indigo-600 mb-2">87.5</p>
@@ -275,15 +292,11 @@
                     </ul>
                 </div>
             </div>
-
-            
         </main>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        
-
         // Skrip untuk Dropdown Profil
         const profileDropdownBtn = document.getElementById('profileDropdownBtn');
         const profileDropdownMenu = document.getElementById('profileDropdownMenu');
@@ -302,17 +315,21 @@
         const sidebar = document.getElementById('sidebar');
         const hamburgerBtn = document.getElementById('hamburgerBtn');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const mainContent = document.querySelector('main'); // Dapatkan elemen main content
 
         function openSidebar() {
             sidebar.classList.remove('sidebar-closed');
             sidebar.classList.add('sidebar-open');
             sidebarOverlay.classList.remove('hidden');
+            // Untuk memastikan main content tidak bergeser di mobile saat sidebar terbuka
+            document.body.style.overflow = 'hidden'; 
         }
 
         function closeSidebar() {
             sidebar.classList.remove('sidebar-open');
             sidebar.classList.add('sidebar-closed');
             sidebarOverlay.classList.add('hidden');
+            document.body.style.overflow = ''; // Kembalikan overflow body
         }
 
         // Toggle sidebar saat tombol hamburger diklik
@@ -333,11 +350,24 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth >= 1024) { // Jika lebar layar lebih besar dari breakpoint 'lg'
                 sidebar.classList.remove('sidebar-closed');
-                sidebar.classList.add('sidebar-open');
+                sidebar.classList.add('lg:sidebar-open-desktop'); // Gunakan class spesifik desktop
+                sidebar.classList.add('lg:sidebar-relative'); // Pastikan posisi relatif di desktop
                 sidebarOverlay.classList.add('hidden');
+                document.body.style.overflow = ''; // Pastikan overflow kembali normal di desktop
+                mainContent.classList.add('lg:main-content-padding'); // Tambahkan padding ke main content
             } else {
                 // Di mobile, jika sidebar terbuka, biarkan terbuka. Jika tertutup, biarkan tertutup.
                 // Ini mencegah sidebar muncul secara otomatis saat orientasi mobile berubah.
+                sidebar.classList.remove('lg:sidebar-open-desktop');
+                sidebar.classList.remove('lg:sidebar-relative');
+                mainContent.classList.remove('lg:main-content-padding'); // Hapus padding di mobile
+                if (sidebar.classList.contains('sidebar-open')) {
+                    sidebarOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden'; 
+                } else {
+                    sidebarOverlay.classList.add('hidden');
+                    document.body.style.overflow = ''; 
+                }
             }
         });
 
@@ -355,7 +385,13 @@
         document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth >= 1024) {
                 sidebar.classList.remove('sidebar-closed');
-                sidebar.classList.add('sidebar-open');
+                sidebar.classList.add('lg:sidebar-open-desktop');
+                sidebar.classList.add('lg:sidebar-relative');
+                mainContent.classList.add('lg:main-content-padding'); // Tambahkan padding di awal
+            } else {
+                sidebar.classList.add('sidebar-closed');
+                sidebarOverlay.classList.add('hidden');
+                mainContent.classList.remove('lg:main-content-padding'); // Pastikan tidak ada padding di mobile
             }
         });
     </script>
