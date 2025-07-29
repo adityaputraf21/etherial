@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-slate-900 font-sans;
+}
+
+.font-serif { 
+  font-family: 'Cinzel', serif; 
+}
+.font-sans { 
+  font-family: 'Inter', sans-serif; 
+}
+
+/* Custom scrollbar untuk nuansa tematik */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0f172a; /* slate-900 */
+}
+::-webkit-scrollbar-thumb {
+  background: #475569; /* slate-600 */
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #facc15; /* yellow-400 */
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+.bg-grid-slate-800 {
+  background-image: linear-gradient(white 1px, transparent 1px), linear-gradient(to right, white 1px, #0f172a 1px);
+  background-size: 4rem 4rem;
+  opacity: 0.05;
+}

@@ -1,0 +1,10 @@
+{
+  "short_name": "Etherial",
+  "name": "Etherial Academy - Awaken the Magic in Your Mind",
+  "start_url": "/",
+  "background_color": "#111827",
+  "display": "standalone",
+  "scope": "/",
+  "theme_color": "#facc15",
+  "description": "Platform pendidikan untuk membangkitkan potensi magis dalam pikiran Anda."
+}
