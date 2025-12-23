@@ -1,93 +1,26 @@
-// src/components/pages/DashboardPage.jsx
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// src/pages/DashboardPage.jsx
+import { useEffect, useState } from 'react';
 import { supabase } from '../../supabaseClient';
-import DashboardLayout from '../layout/DashboardLayout';
-import { DashboardHome } from '../dashboard/DashboardHome';
-import { MyClassesPage } from '../dashboard/MyClassesPage';
-import { AssignmentsPage } from '../dashboard/AssignmentsPage';
-import { ProfilePage } from '../dashboard/ProfilePage';
-
-// --- DATA CONTOH (Nantinya akan diambil dari Supabase) ---
-const mockEnrolledPrograms = [
-  { name: 'Foundations Class', tutor: 'Mr. Alistair', schedule: 'Senin, 16:00', progress: 75 },
-  { name: 'Fluentia Class', tutor: 'Ms. Elara', schedule: 'Rabu, 16:00', progress: 40 },
-];
-
-const mockPointHistory = [
-  { reason: 'Berani melakukan presentasi', points: 15, date: '2 Agu' },
-  { reason: 'Menyelesaikan tugas', points: 10, date: '1 Agu' },
-  { reason: 'Hadir tepat waktu', points: 5, date: '1 Agu' },
-];
-
-const mockAssignments = [
-  { title: 'Membuat Esai Kreatif', class: 'Fluentia Class', dueDate: '5 Agu 2025', status: 'Terkumpul', grade: 'A' },
-  { title: 'Eksperimen Perubahan Zat', class: 'Foundations Class', dueDate: '10 Agu 2025', status: 'Belum Dikerjakan', grade: null },
-  { title: 'Presentasi Sejarah Nusantara', class: 'Foundations Class', dueDate: '28 Jul 2025', status: 'Terkumpul', grade: 'B+' },
-];
-// --- AKHIR DATA CONTOH ---
+import RolePanel from '../../components/RolePanel';
 
 export default function DashboardPage() {
-  const [user, setUser] = useState(null);
-  const [activeView, setActiveView] = useState('home');
-  const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
 
-  // Ambil user dari session Supabase
   useEffect(() => {
-    const fetchUser = async () => {
+    const fetchProfile = async () => {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        navigate('/login');
-      } else {
-        setUser({
-          id: user.id,
-          fullName: `${user.user_metadata?.nama_depan ?? ''} ${user.user_metadata?.nama_belakang ?? ''}`,
-          role: user.user_metadata?.role,
-          email: user.email,
-        });
-      }
+      const { data } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+      setProfile(data);
     };
+    fetchProfile();
+  }, []);
 
-    fetchUser();
-  }, [navigate]);
-
-  // Fungsi Logout
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate('/login', { replace: true }); // ⬅️ redirect ke login
-  };
-
-  // Tampilan isi dashboard
-  const renderContent = () => {
-    switch (activeView) {
-      case 'my-classes':
-        return <MyClassesPage programs={mockEnrolledPrograms} />;
-      case 'assignments':
-        return <AssignmentsPage assignments={mockAssignments} />;
-      case 'profile':
-        return <ProfilePage user={user} />;
-      case 'home':
-      default:
-        return <DashboardHome user={user} programs={mockEnrolledPrograms} history={mockPointHistory} />;
-    }
-  };
-
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-screen text-white text-lg">
-        Memuat akun...
-      </div>
-    );
-  }
+  if (!profile) return <div className="text-white p-8">Memuat dashboard...</div>;
 
   return (
-    <DashboardLayout
-      user={user}
-      onLogout={handleLogout}
-      activeView={activeView}
-      onNavigate={setActiveView}
-    >
-      {renderContent()}
-    </DashboardLayout>
+    <div className="min-h-screen bg-slate-900 text-white p-6">
+      <h1 className="text-2xl font-bold mb-4">Halo, {profile.nama_depan}</h1>
+      <RolePanel role={profile.role} />
+    </div>
   );
 }

@@ -1,108 +1,54 @@
-// src/components/pages/LoginPage.jsx
+// src/pages/LoginPage.jsx
 import React, { useState } from 'react';
 import { supabase } from '../../supabaseClient';
-import { Shield, ArrowLeft } from 'lucide-react';
-import { useNavigate } from 'react-router-dom'; // Tambahkan ini
+import { ArrowLeft, Shield } from 'lucide-react';
 
-export default function LoginPage() {
+export default function LoginPage({ onNavigate }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate(); // Inisialisasi navigate
+  const [error, setError] = useState(null);
 
-  const handleEmailLogin = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error || !data.session) {
+        setError(error?.message || 'Login gagal. Periksa email dan password Anda.');
+        return;
+      }
 
-    if (error) {
-      setError(error.message);
-    } else {
-      navigate('/redirect'); // 🚀 Ganti window reload
+      onNavigate('dashboard');
+    } catch (err) {
+      setError('Terjadi kesalahan: ' + err.message);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
-  };
-
-  const handleGoogleLogin = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/redirect`,
-      },
-    });
-
-    if (error) setError(error.message);
   };
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white font-sans relative">
-      <button onClick={() => navigate('/')} className="absolute top-4 left-4 p-2">
-        <ArrowLeft />
-      </button>
-
-      <div className="bg-slate-800 p-8 rounded-xl shadow-xl w-full max-w-md">
-        <div className="text-center mb-6">
-          <Shield className="w-14 h-14 text-yellow-400 mx-auto mb-2" />
-          <h1 className="text-3xl font-bold font-serif">ETHERIAL ACADEMY</h1>
-        </div>
-
-        {error && (
-          <div className="bg-red-500/20 text-red-300 p-3 rounded mb-4 text-center">
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleEmailLogin} className="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            className="w-full p-3 rounded bg-slate-700 text-white"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder="Kata Sandi"
-            className="w-full p-3 rounded bg-slate-700 text-white"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-          <button
-            type="submit"
-            disabled={isLoading}
-            className="w-full bg-yellow-400 hover:bg-yellow-300 text-slate-900 font-bold py-3 rounded"
-          >
-            {isLoading ? 'Memproses...' : 'Masuk'}
+    <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-4">
+      <div className="max-w-md w-full p-8 bg-slate-800 rounded-xl shadow-xl">
+        <Shield className="w-12 h-12 mx-auto mb-4 text-yellow-400" />
+        <h1 className="text-3xl text-center font-bold font-serif mb-6">Login Etherial</h1>
+        <form onSubmit={handleLogin} className="space-y-4">
+          {error && <div className="bg-red-500/20 text-red-300 p-3 rounded-lg">{error}</div>}
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email" required className="w-full bg-slate-700 p-3 rounded" />
+          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password" required className="w-full bg-slate-700 p-3 rounded" />
+          <button type="submit" disabled={isLoading}
+            className="w-full bg-yellow-400 text-black font-bold p-3 rounded">
+            {isLoading ? 'Loading...' : 'Masuk'}
           </button>
         </form>
-
-        <div className="my-4 text-center">
-          <button
-            onClick={handleGoogleLogin}
-            className="w-full bg-white text-slate-900 font-bold py-3 rounded hover:bg-gray-200"
-          >
-            Masuk dengan Google
-          </button>
-        </div>
-
-        <div className="text-center mt-6 text-sm">
+        <p className="text-center text-sm mt-4">
           Belum punya akun?{' '}
-          <button
-            onClick={() => navigate('/register')}
-            className="text-yellow-300 font-bold hover:underline"
-          >
-            Daftar di sini
-          </button>
-        </div>
+          <a href="#" onClick={() => onNavigate('register')} className="text-yellow-300 font-bold">Daftar</a>
+        </p>
       </div>
     </div>
   );

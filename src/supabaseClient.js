@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = 'https://mpwfsilhyfznosqosmhy.supabase.co';
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wd2ZzaWxoeWZ6bm9zcW9zbWh5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM2MzI5MTQsImV4cCI6MjA2OTIwODkxNH0.y3y7yLr79ypZcMp_e83S5wKH5yHn6VErpFnooGxGDeI';
+const supabaseUrl = 'https://nltnsmnlbqnxusxcrwyo.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5sdG5zbW5sYnFueHVzeGNyd3lvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTQyMTUwOTMsImV4cCI6MjA2OTc5MTA5M30.tGvpaUn-wZNqFiqstU9GiyR-XlfFUAON_c453KdjD-M'; // Ini dari Supabase > Project Settings > API
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseKey);
